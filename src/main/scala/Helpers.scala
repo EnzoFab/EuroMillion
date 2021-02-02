@@ -29,4 +29,21 @@ object Helpers {
 
     }
   }
+
+  implicit class IntegerCast(s: String) {
+
+    /**
+      * Try to cast a string to int
+      * @param s: string
+      * @return
+      */
+    def toInteger(): Option[Int] = {
+      try {
+        Some(s.toInt)
+      } catch {
+        case e: Exception => None
+      }
+    }
+  }
+
 }

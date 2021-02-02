@@ -7,7 +7,7 @@ class EuroMillionProposition(val numbers: List[Int], val stars: List[Int]) {
   override def toString: String = {
     val sortedNumbers = numbers.sorted.mkString(", ")
     val sortedStars = stars.sorted.mkString(", ")
-    s"Numbers : ${sortedNumbers} | Stars : ${sortedStars}"
+    s"Numbers : $sortedNumbers | Stars : $sortedStars"
   }
 }
 
@@ -24,7 +24,7 @@ object EuroMillionProposition {
     * @param numbers : a list of available number
     * @param random :  random object
     * @param size : the size of the returned list
-    * @tparam A
+    * @tparam A: Element of the list
     * @return List
     */
   private def getRandomCombination[A](numbers: List[A],
