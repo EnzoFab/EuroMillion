@@ -1,4 +1,7 @@
 import scala.util.Random
+import Helpers._
+
+import scala.annotation.tailrec
 
 class EuroMillionProposition(val numbers: List[Int], val stars: List[Int]) {
   override def toString: String = {
@@ -44,16 +47,33 @@ object EuroMillionProposition {
   def generateRandomPropositions(
     quantity: Int
   ): List[EuroMillionProposition] = {
-    if (quantity <= 0) return Nil
 
-    val randomCombinations = getRandomCombination(availableNumbers, size = 5)
-    val randomStars = getRandomCombination(availableStars, size = 2)
+    @tailrec
+    def generateRandomPropositionsRec(
+      accumulator: List[EuroMillionProposition] = Nil,
+      quantity: Int
+    ): List[EuroMillionProposition] = {
+      if (quantity <= 0) return accumulator
 
-    val randomProposition = new EuroMillionProposition(
-      numbers = randomCombinations,
-      stars = randomStars
-    )
+      val randomCombinations = getRandomCombination(availableNumbers, size = 5)
+      val randomStars = getRandomCombination(availableStars, size = 2)
 
-    randomProposition :: generateRandomPropositions(quantity - 1)
+      val randomProposition = new EuroMillionProposition(
+        numbers = randomCombinations,
+        stars = randomStars
+      )
+
+      generateRandomPropositionsRec(
+        randomProposition :: accumulator,
+        quantity - 1
+      )
+    }
+
+    generateRandomPropositionsRec(Nil, quantity)
+
   }
+
+  def getHistogram(propositions: List[EuroMillionProposition],
+                   onStars: Boolean = false): List[(Int, Int)] =
+    propositions.histogram(onStars)
 }
